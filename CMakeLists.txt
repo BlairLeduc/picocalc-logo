@@ -23,7 +23,7 @@ if (EXISTS ${picoVscode})
     include(${picoVscode})
 endif()
 # ====================================================================================
-set(PICO_BOARD pico2 CACHE STRING "Board type")
+set(PICO_BOARD pimoroni_pico_plus2_rp2350 CACHE STRING "Board type")
 
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
@@ -37,13 +37,15 @@ pico_sdk_init()
 
 add_executable(picocalc-logo
         main.c
-        modules/picocalc-text-starter/drivers/audio.c
-        modules/picocalc-text-starter/drivers/audio.h
+        picocalc/picocalc.c
+        picocalc/picocalc.h
+        picocalc/screen.c
+        picocalc/screen.h
+        evaluate.c
+        evaluate.h
+        input.c
+        input.h
         modules/picocalc-text-starter/drivers/clib.c
-        modules/picocalc-text-starter/drivers/display.c
-        modules/picocalc-text-starter/drivers/display.h
-        modules/picocalc-text-starter/drivers/fat32.c
-        modules/picocalc-text-starter/drivers/fat32.h
         modules/picocalc-text-starter/drivers/font-5x10.c
         modules/picocalc-text-starter/drivers/font-8x10.c
         modules/picocalc-text-starter/drivers/font.h
@@ -51,12 +53,6 @@ add_executable(picocalc-logo
         modules/picocalc-text-starter/drivers/keyboard.h
         modules/picocalc-text-starter/drivers/lcd.c
         modules/picocalc-text-starter/drivers/lcd.h
-        modules/picocalc-text-starter/drivers/onboard_led.c
-        modules/picocalc-text-starter/drivers/onboard_led.h
-        modules/picocalc-text-starter/drivers/picocalc.c
-        modules/picocalc-text-starter/drivers/picocalc.h
-        modules/picocalc-text-starter/drivers/sdcard.c
-        modules/picocalc-text-starter/drivers/sdcard.h
         modules/picocalc-text-starter/drivers/southbridge.c
         modules/picocalc-text-starter/drivers/southbridge.h
         )
@@ -86,6 +82,7 @@ target_link_libraries(picocalc-logo
         pico_stdlib
         pico_printf
         pico_float
+        pico_rand
         hardware_gpio
         hardware_i2c
         hardware_spi
