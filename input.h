@@ -14,4 +14,4 @@
 #define KEY_TIME_OUT 0xFF
 
 // Function prototypes
-bool read_line(char *buf, int size);
+void read_line(char *buf, int size);

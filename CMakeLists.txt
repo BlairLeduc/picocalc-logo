@@ -24,6 +24,7 @@ if (EXISTS ${picoVscode})
 endif()
 # ====================================================================================
 set(PICO_BOARD pimoroni_pico_plus2_rp2350 CACHE STRING "Board type")
+set(PICOCALC_LOGO_VERSION "1.0.0-alpha.1" CACHE STRING "PicoCalc Logo version")
 
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
@@ -45,7 +46,12 @@ add_executable(picocalc-logo
         evaluate.h
         input.c
         input.h
+        license.c
+        modules/picocalc-text-starter/drivers/audio.c
+        modules/picocalc-text-starter/drivers/audio.h
         modules/picocalc-text-starter/drivers/clib.c
+        modules/picocalc-text-starter/drivers/fat32.c
+        modules/picocalc-text-starter/drivers/fat32.h
         modules/picocalc-text-starter/drivers/font-5x10.c
         modules/picocalc-text-starter/drivers/font-8x10.c
         modules/picocalc-text-starter/drivers/font.h
@@ -53,12 +59,15 @@ add_executable(picocalc-logo
         modules/picocalc-text-starter/drivers/keyboard.h
         modules/picocalc-text-starter/drivers/lcd.c
         modules/picocalc-text-starter/drivers/lcd.h
+        modules/picocalc-text-starter/drivers/sdcard.c
+        modules/picocalc-text-starter/drivers/sdcard.h
         modules/picocalc-text-starter/drivers/southbridge.c
         modules/picocalc-text-starter/drivers/southbridge.h
         )
 
 pico_set_program_name(picocalc-logo "picocalc-logo")
-pico_set_program_version(picocalc-logo "0.1")
+pico_set_program_url(picocalc-logo "https://github.com/BlairLeduc/picocalc-logo")
+pico_set_program_version(picocalc-logo "${PICOCALC_LOGO_VERSION}")
 
 # Generate PIO header
 pico_generate_pio_header(picocalc-logo ${CMAKE_CURRENT_LIST_DIR}/modules/picocalc-text-starter/drivers/audio.pio)
@@ -67,10 +76,18 @@ pico_generate_pio_header(picocalc-logo ${CMAKE_CURRENT_LIST_DIR}/modules/picocal
 pico_enable_stdio_uart(picocalc-logo 0)
 pico_enable_stdio_usb(picocalc-logo 0)
 
+# Turn on all warnings
+target_compile_options(picocalc-logo PRIVATE -Wall -Werror)
+
 # Add the standard library to the build
 target_link_libraries(picocalc-logo
         pico_stdlib)
 
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/version.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/version.h
+    @ONLY
+)
 # Add the standard include files to the build
 target_include_directories(picocalc-logo PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}

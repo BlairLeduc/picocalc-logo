@@ -1,0 +1,9 @@
+//
+//  PicoCalc Logo
+//  Copyright Blair Leduc.
+//  See LICENSE for details.
+//
+
+#pragma once
+
+#define PICOCALC_LOGO_VERSION "@PICOCALC_LOGO_VERSION@"

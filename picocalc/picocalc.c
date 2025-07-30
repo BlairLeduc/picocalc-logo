@@ -1,10 +1,20 @@
+//
+//  PicoCalc Logo
+//  Copyright Blair Leduc.
+//  See LICENSE for details.
+//
+
 #include "stdio.h"
 #include "pico/stdlib.h"
 #include "pico/stdio/driver.h"
 
-#include "screen.h"
+#include "drivers/audio.h"
+#include "drivers/fat32.h"
 #include "drivers/keyboard.h"
 #include "drivers/southbridge.h"
+
+#include "screen.h"
+
 
 // Callback for when characters become available
 static void (*chars_available_callback)(void *) = NULL;
@@ -62,11 +72,11 @@ stdio_driver_t picocalc_stdio_driver = {
 void picocalc_init()
 {
     sb_init();
+    audio_init();
     screen_init();
     keyboard_init(picocalc_chars_available_notify);
+    fat32_init();
 
     stdio_set_driver_enabled(&picocalc_stdio_driver, true);
     stdio_set_translate_crlf(&picocalc_stdio_driver, false);
-
-    screen_set_mode(SCREEN_MODE_SPLIT);
 }
