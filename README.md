@@ -2,6 +2,8 @@
 
 This project implements a dialect of the computer language Logo for the PicoCalc. The dialect is inspired by Berkley Logo, FMSLogo and Tarrapin Logo, with modifications to fit the constraints of the PicoCalc, and with enhanced features to leverage the capabilities of the PicoCalc.
 
+![screenshot](assets/screenshot-1.bmp)
+
 Logo is a programming language known for its use in education, particularly in teaching programming concepts through turtle graphics. The PicoCalc Logo interpreter allows users to write Logo programs that can control the turtle graphics on the PicoCalc device.
 
 ## Features
@@ -23,6 +25,4 @@ Logo is a programming language known for its use in education, particularly in t
 
 ## Getting Started
 
-Download the latest release from the [releases page](https://github.com/BlairLeduc/picocalc-logo/releases).
-
-Put your PicoCalc into bootloader mode by holding down the "BOOT" button while powering it on. Then, copy the UF2 file to the USB drive that appears.
+For more detailed information, tutorials, and guides, please visit the [PicoCalc Logo Wiki](https://github.com/BlairLeduc/picocalc-logo/wiki).

@@ -18,6 +18,7 @@
 #include "input.h"
 #include "picocalc/picocalc.h"
 #include "picocalc/screen.h"
+#include "turtle.h"
 #include "version.h"
 
 volatile bool user_interrupt = false;
@@ -40,9 +41,7 @@ int main()
     printf("Welcome to PicoCalc Logo %s\n", PICOCALC_LOGO_VERSION);
     printf("Copyright Blair Leduc.\n\n");
 
-    // Test banner - remove
-    screen_gfx_line(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0xFFFF); // Draw a white diagonal line
-    screen_gfx_line(SCREEN_WIDTH - 1, 0, 0, SCREEN_HEIGHT - 1, 0x1F<<11); // Draw a red diagonal line
+    turtle_draw(); // Draw the turtle at home position
     screen_gfx_update(); // Update the graphics screen
 
     // REPL loop

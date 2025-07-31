@@ -24,14 +24,6 @@
 #define SCREEN_SPLIT_TXT_ROW (SCREEN_HEIGHT - SCREEN_SPLIT_TXT_HEIGHT) / GLYPH_HEIGHT // Star row of text rows in split mode
 #define SCREEN_SPLIT_TXT_ROWS (SCREEN_SPLIT_TXT_HEIGHT / GLYPH_HEIGHT)                // Number of text rows in split mode
 
-// Turtle definitions
-#define TURTLE_HOME_X (SCREEN_WIDTH / 2.0f)  // Home position x coordinate
-#define TURTLE_HOME_Y (SCREEN_HEIGHT / 2.0f) // Home position y coordinate
-#define TURTLE_DEFAULT_ANGLE (0.0f)          // Default angle for turtle graphics
-#define TURTLE_DEFAULT_COLOR (0xFFFF)        // Default turtle color (white)
-#define TURTLE_DEFAULT_VISIBILITY (true)     // Default turtle visibility state
-#define TURTLE_DEFAULT_PEN_DOWN (true)       // Default turtle pen state (down)
-
 // Text definitions
 #define TXT_DEFAULT_FONT (&font_5x10)   // Default font for text mode
 #define TXT_DEFAULT_FOREGROUND (0xFFFF) // Default foreground color (white)
@@ -65,8 +57,8 @@ void screen_set_mode(uint8_t mode);
 // Graphics functions
 uint16_t *screen_gfx_frame();
 void screen_gfx_clear(void);
-void screen_gfx_point(float x, float y, uint16_t colour);
-void screen_gfx_line(float x1, float y1, float x2, float y2, uint16_t colour);
+void screen_gfx_point(float x, float y, uint16_t colour, bool xor);
+void screen_gfx_line(float x1, float y1, float x2, float y2, uint16_t colour, bool xor);
 void screen_gfx_update(void);
 int screen_gfx_save(const char *filename);
 

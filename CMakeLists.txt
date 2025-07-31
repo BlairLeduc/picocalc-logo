@@ -47,6 +47,8 @@ add_executable(picocalc-logo
         input.c
         input.h
         license.c
+        turtle.c
+        turtle.h
         modules/picocalc-text-starter/drivers/audio.c
         modules/picocalc-text-starter/drivers/audio.h
         modules/picocalc-text-starter/drivers/clib.c

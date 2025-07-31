@@ -55,14 +55,6 @@ static bool txt_line_font[SCREEN_ROWS] = {false}; // Track if the line has a dif
 
 static uint8_t screen_mode = SCREEN_MODE_SPLIT;
 
-// Graphics state
-// static float turtle_x = TURTLE_HOME_X;                  // Current x position for graphics
-// static float turtle_y = TURTLE_HOME_Y;                  // Current y position for graphics
-// static float turtle_angle = TURTLE_DEFAULT_ANGLE;       // Current angle for graphics
-// static bool turtle_pen_down = TURTLE_DEFAULT_PEN_DOWN;  // Pen state for graphics
-// static bool turtle_visible = TURTLE_DEFAULT_VISIBILITY; // Turtle visibility state for graphics
-// static uint16_t turtle_color = TURTLE_DEFAULT_COLOR;    // Turtle color for graphics
-
 // Text state
 static const font_t *screen_font = TXT_DEFAULT_FONT; // Default font for text mode
 static uint16_t text_row = 0;                        // The last row written to in text mode
@@ -90,9 +82,16 @@ static int wrap_and_round(float value, int max)
 }
 
 // Set a pixel in the graphics buffer
-static void set_pixel(int x, int y, uint16_t colour)
+static void set_pixel(int x, int y, uint16_t colour, bool xor)
 {
-    gfx_buffer[y * SCREEN_WIDTH + x] = colour;
+    if (xor)
+    {
+        gfx_buffer[y * SCREEN_WIDTH + x] ^= colour;
+    }
+    else
+    {
+        gfx_buffer[y * SCREEN_WIDTH + x] = colour;
+    }
 }
 
 // Helper function to scroll the text buffer up one line
@@ -222,16 +221,16 @@ void screen_gfx_clear(void)
 }
 
 // Draw a point in the graphics buffer
-void screen_gfx_point(float x, float y, uint16_t colour)
+void screen_gfx_point(float x, float y, uint16_t colour, bool xor)
 {
     int pixel_x = wrap_and_round(x, SCREEN_WIDTH);
     int pixel_y = wrap_and_round(y, SCREEN_HEIGHT);
 
-    set_pixel(pixel_x, pixel_y, colour);
+    set_pixel(pixel_x, pixel_y, colour, xor);
 }
 
 // Draw a line in the graphics buffer using Bresenham's algorithm
-void screen_gfx_line(float x1, float y1, float x2, float y2, uint16_t colour)
+void screen_gfx_line(float x1, float y1, float x2, float y2, uint16_t colour, bool xor)
 {
     // Calculate the number of steps based on the longest axis
     float dx = x2 - x1;
@@ -241,7 +240,7 @@ void screen_gfx_line(float x1, float y1, float x2, float y2, uint16_t colour)
     if (steps == 0)
     {
         // Single point
-        screen_gfx_point(x1, y1, colour);
+        screen_gfx_point(x1, y1, colour, xor);
         return;
     }
 
@@ -256,7 +255,7 @@ void screen_gfx_line(float x1, float y1, float x2, float y2, uint16_t colour)
         int px = wrap_and_round(x, SCREEN_WIDTH);
         int py = wrap_and_round(y, SCREEN_HEIGHT);
 
-        set_pixel(px, py, colour);
+        set_pixel(px, py, colour, xor);
 
         x += x_inc;
         y += y_inc;
